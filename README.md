@@ -8,14 +8,16 @@ Case studies of polling failures focus on within-election differences in poll ac
 
 
 ## Description of files
-- [code](https://github.com/sina-chen/eldctoral_predictors/code)
+- The [code](https://github.com/sina-chen/eldctoral_predictors/tree/main/code) folder contains all code required for replication.
 
-  - preparation
-  - fit_stan
-  - stan_ml
-  - results_vis
+  - The [preparation](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/preparation) contains all code for prepare polling data and merge relevant covariates.
+  - The [fit_stan](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/fit_stan) contains all code for fitting the single models.
+      
+      - In the subfolder [stan_ml](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/fit_stan/stan_ml)the stan models can be found
+  
+  - The [results_vis](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/results_vis) folder contains all code necessary for visualizing the results.
 
-- data
+- The [data] https://github.com/sina-chen/eldctoral_predictors/tree/main/data) folder contains polling data for 2022 and all data on covariates. Polling data from 1990-2020 may be obtained from 538 on request.
 
 
 ## Contact information
