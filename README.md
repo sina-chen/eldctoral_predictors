@@ -1,5 +1,5 @@
 # Replication materials for "Electoral predictors of polling errors"
-This repository contains supplementary and replication materials for the paper "[Electoral predictors of polling errors]"(https://preprints.apsanet.org/engage/apsa/article-details/64639021f2112b41e9a85d2e) by Sina Chen, John Körtner, Peter Selb, and Jens Wiederspohn.
+This repository contains supplementary and replication materials for the paper "[Electoral predictors of polling errors](https://preprints.apsanet.org/engage/apsa/article-details/64639021f2112b41e9a85d2e)" by Sina Chen, John Körtner, Peter Selb, and Jens Wiederspohn.
 
 
 ## Abstract 
