@@ -8,7 +8,7 @@ Case studies of polling failures focus on within-election differences in poll ac
 
 
 ## Description of files
-- code
+- code[https://github.com/sina-chen/eldctoral_predictors/code]
 
   - preparation
   - fit_stan
