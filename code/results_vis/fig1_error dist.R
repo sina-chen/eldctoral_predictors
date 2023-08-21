@@ -25,8 +25,10 @@
 # polls
 polls <- readRDS("~/data/us/senate/us_senate_polls1990_2022_context_finance.RDS")
 
-
+# estimated election-level election day bias
 b0_summary <- readRDS("~/results_vis/us_senate_predictable/bias_senate1990_2022_empty.RDS")
+
+# estimated election-level election day excess variance
 v0_r_summary <- readRDS("~/results_vis/us_senate_predictable/v0_senate1990_2022_empty.RDS")
 
 
@@ -42,11 +44,11 @@ plot_cycle <- function(year, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"),
         stat_function(fun = dnorm, args = list(mean = mean, sd = sd),
                       color = "grey30")
       }, 
-      mean = cycle_data$mean_est,
-      sd = sqrt(cycle_data$var_est)
+      mean = cycle_data$mean_est*100,
+      sd = sqrt(cycle_data$var_est)*100
       ) +
-      scale_x_continuous(breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3), 
-                         limits = c(-0.35, 0.35)) +
+      scale_x_continuous(breaks = c(-30, -20, -10, 0, 10, 20, 30), 
+                         limits = c(-35, 35)) +
       theme_bw() +
       labs(y = "", x = "") +
       theme(axis.text = element_blank(),
@@ -54,10 +56,10 @@ plot_cycle <- function(year, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"),
             panel.grid.major.y = element_blank(),
             panel.grid.minor.y = element_blank(),
             axis.ticks.y = element_blank()) +
-      geom_boxploth(data = cycle_data, inherit.aes = F, width = 1.7,
-                    aes(y = -1, x = mean_est), varwidth = F) +
+      geom_boxploth(data = cycle_data, inherit.aes = F, width = 0.02,
+                    aes(y = -0.02, x = mean_est*100), varwidth = F) +
       geom_vline(xintercept = 0, linetype = "dashed") +
-      coord_cartesian(xlim = c(-0.35, 0.35))
+      coord_cartesian(xlim = c(-35, 35))
     
   } else if (xaxis_labels == T){
     cycle_data <- plot_data %>% filter(cycle == year)
@@ -66,11 +68,11 @@ plot_cycle <- function(year, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"),
         stat_function(fun = dnorm, args = list(mean = mean, sd = sd),
                       color = "grey30")
       }, 
-      mean = cycle_data$mean_est,
-      sd = sqrt(cycle_data$var_est)
+      mean = cycle_data$mean_est*100,
+      sd = sqrt(cycle_data$var_est)*100
       ) +
-      scale_x_continuous(breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3), 
-                         limits = c(-0.35, 0.35)) +
+      scale_x_continuous(breaks = c(-30, -20, -10, 0, 10, 20, 30), 
+                         limits = c(-35, 35)) +
       theme_bw() +
       labs(y = "", x = "") +
       theme(axis.text.y = element_blank(),
@@ -79,26 +81,25 @@ plot_cycle <- function(year, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"),
             panel.grid.major.y = element_blank(),
             panel.grid.minor.y = element_blank(),
             axis.ticks.y = element_blank()) +
-      geom_boxploth(data = cycle_data, inherit.aes = F, width = 1.7,
-                    aes(y = -1, x = mean_est), varwidth = F) +
+      geom_boxploth(data = cycle_data, inherit.aes = F, width = 0.02,
+                    aes(y = -0.02, x = mean_est*100), varwidth = F) +
       geom_vline(xintercept = 0, linetype = "dashed") +
-      coord_cartesian(xlim = c(-0.35, 0.35))
+      coord_cartesian(xlim = c(-35, 35))
   }
   
   return(plot)
 }
 
 # plot cycle tse
-plot_cycle_tse <- function(year, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"), 
+plot_cycle_tse <- function(year, margin = unit(c(-1.1, 0.6, 0, 0.5), "cm"), 
                            xaxis_labels = F, plot_data = polls) {
   if(xaxis_labels == F){
-    cycle_data <- plot_data %>% filter(cycle == year)
     plot <- ggplot() +
       geom_density_ridges(data = plot_data %>% filter(cycle == year), 
-                          aes(x = pct2_rep - vote2_rep, y = as.factor(cycle), 
+                          aes(x = (pct2_rep*100) - (vote2_rep*100), y = as.factor(cycle), 
                               color = state),
-                          scale = 0.75, fill = NA, 
-                          bandwidth = 0.0155) +
+                          scale = 5, fill = NA, 
+                          bandwidth = 1.16) +
       theme_bw() +
       geom_vline(xintercept = 0, linetype = "dashed") + 
       scale_y_discrete(limits=rev) +
@@ -112,18 +113,18 @@ plot_cycle_tse <- function(year, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"),
             panel.grid.minor.y = element_blank()) +
       scale_color_manual(guide = "none", values = rep("grey30", 50)) +
       geom_boxploth(data = plot_data %>% filter(cycle == year), 
-                    inherit.aes = F, width = 2,
-                    aes(y = -0.6, x = pct2_rep - vote2_rep)) +
-      scale_x_continuous(breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3)) +
-      coord_cartesian(xlim = c(-0.35, 0.35), ylim =c(-2,18))
+                    inherit.aes = F, width = 0.15,
+                    aes(y = 0.85, x = (pct2_rep*100) - (vote2_rep*100))) +
+      scale_x_continuous(breaks = c(-30, -20, -10, 0, 10, 20, 30)) +
+      coord_cartesian(xlim = c(-35, 35), ylim =c(0.8,1.8))
     
   } else if (xaxis_labels == T){
-    cycle_data <- plot_data %>% filter(cycle == year)
     plot <- ggplot() +
       geom_density_ridges(data = plot_data %>% filter(cycle == year), 
-                          aes(x = pct2_rep - vote2_rep, y = as.factor(cycle), 
+                          aes(x = (pct2_rep*100) - (vote2_rep*100), y = as.factor(cycle), 
                               color = state),
-                          scale = 0.75, fill = NA, bandwidth = 0.0155) +
+                          scale = 5, fill = NA, bandwidth = 1.16
+                          ) +
       theme_bw() +
       geom_vline(xintercept = 0, linetype = "dashed") + 
       scale_y_discrete(limits=rev) +
@@ -137,13 +138,17 @@ plot_cycle_tse <- function(year, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"),
             panel.grid.minor.y = element_blank()) +
       scale_color_manual(guide = "none", values = rep("grey30", 50)) +
       geom_boxploth(data = plot_data %>% filter(cycle == year), inherit.aes = F, 
-                    width = 2, aes(y = -0.6, x = pct2_rep - vote2_rep))  +
-      scale_x_continuous(breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3)) +
-      coord_cartesian(xlim = c(-0.35, 0.35), ylim =c(-2,18))
+                    width = 0.1, 
+                    aes(y = 0.85, x = (pct2_rep*100) - (vote2_rep*100)))  +
+      scale_x_continuous(breaks = c(-30, -20, -10, 0, 10, 20, 30)) +
+      coord_cartesian(xlim = c(-35, 35), ylim = c(1.2,1.6))
   }
   
   return(plot)
 }
+
+
+
 
 # plot cycle tse vertical
 plot_v_cycle_tse <- function(year, margin = unit(c(0, 0, 0, 0), "cm"), 
@@ -209,13 +214,14 @@ plot_v_cycle_tse <- function(year, margin = unit(c(0, 0, 0, 0), "cm"),
 
 # compute election groups and ids for election year and state
 polls <- polls %>%
-  mutate(state_year = paste0(state, cycle),
-         cycle = as.integer(cycle)) %>%
+  mutate(state_year = paste0(state, cycle)) %>% 
+  filter(dte < 1460) %>%
   group_by(state_year) %>%
   mutate(n_poll = n()) %>%
   ungroup() %>%
-  filter(n_poll >= 5 & dte < 1460) %>% # exclude polls conducted more than 4 years (max time to orevious election)
-  mutate(state_year_int = as.integer(as.factor(state_year)),
+  filter(n_poll >= 5 )  %>% 
+  mutate(cycle = as.integer(cycle),
+         state_year_int = as.integer(as.factor(state_year)),
          t_sc = as.numeric(dte)/max(as.numeric(dte)))
 
 # Election-level data
@@ -223,10 +229,6 @@ election_data <- polls %>%
   group_by(state_year, state_year_int, cycle, state, state_abb, vote2_rep) %>%
   summarise(n_avg = mean(sample_size)) %>%
   ungroup()
-
-
-
-
 
 
 #### Data for plot ####
@@ -258,15 +260,15 @@ plots <- append(plots, list(plot2022), after = 16)
 # plot
 density_estimates_senate <- ggarrange(plotlist = plots, ncol = 1,
                                       heights = c(1.5,rep(1,15),1.2)) %>% 
-  annotate_figure(bottom = text_grob("Estimated election-day bias and SD", 
+  annotate_figure(bottom = text_grob("Estimated election-day bias (%) and SD (%)", 
                                      size = 18))
 
 #### TSE ####
 
 # generate plots for each cycle
-plot_tse1990 <- plot_cycle_tse(year = 1990, margin =  unit(c(0, 0.6, 0.5, 0.5), "cm"))
+plot_tse1990 <- plot_cycle_tse(year = 1990, margin =  unit(c(0, 0.6, 0.1, 0.5), "cm"))
 plot_tse1992_2020 <- lapply(seq(1992, 2020, 2), plot_cycle_tse) 
-plot_tse2022 <- plot_cycle_tse(2022, xaxis_labels = T)
+plot_tse2022 <- plot_cycle_tse(2022, margin = unit(c(-1.1, 0.6, 0.5, 0.5), "cm"), xaxis_labels = T)
 
 # append plots in list
 plots_tse <- append(list(plot_tse1990), plot_tse1992_2020, after = 1)
@@ -275,7 +277,7 @@ plots_tse <- append(plots_tse, list(plot_tse2022), after = 16)
 # plot
 tse_estimates_senate <- ggarrange(plotlist = plots_tse, ncol = 1,
                                   heights = c(1.5,rep(1,15),1.2)) %>% 
-  annotate_figure(bottom = text_grob("Rep. 2 party poll support - Rep. 2 party vote share", 
+  annotate_figure(bottom = text_grob("Rep. 2 party poll support (%) - Rep. 2 party vote share (%)", 
                                      size = 18))
 
 #### Combine plots ####
