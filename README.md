@@ -13,7 +13,7 @@ Case studies of polling failures focus on within-election differences in poll ac
   - The [preparation](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/preparation) contains all code for prepare polling data and merge relevant covariates.
   - The [fit_stan](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/fit_stan) contains all code for fitting the single models.
       
-      - In the subfolder [stan_ml](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/fit_stan/stan_ml)the stan models can be found
+      - In the subfolder [stan_ml](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/fit_stan/stan_ml) the stan models can be found
   
   - The [results_vis](https://github.com/sina-chen/eldctoral_predictors/tree/main/code/results_vis) folder contains all code necessary for visualizing the results.
 
