@@ -23,8 +23,11 @@ Case studies of polling failures focus on within-election differences in poll ac
 ## Contact information
 
 Sina Chen
+
 Graduate School of the Social and Behavioural Sciences
+
 University of Konstanz
+
 Email: sina.chen@uni-konstanz.de
 
   
