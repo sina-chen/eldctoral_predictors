@@ -24,7 +24,7 @@ senate_exp1990_2022 <- readRDS("data/election_features/senate_exp1990_2022.RDS")
 senate_raising1990_2022 <- readRDS("data/election_features//senate_raising1990_2022.RDS")
 
 # polls
-polls <- readRDS("data/polls//us_senate_polls_fte1990_2022.RDS")
+polls <- readRDS("data/polls/us_senate_polls_fte1990_2022.RDS")
 
 
 #-------------------------------------------------------------------------------

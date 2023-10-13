@@ -19,7 +19,7 @@ library(tidyverse)
 polls <- readRDS("data/polls/us_senate_1990_2022_finance.RDS")
 
 # scores
-load("data/election_features/dime_recipients_1979_2018.rdata")
+cf_scores <- read.csv("data/election_features/dime_recipients_1979_2020.csv")
 
 
 #-------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ poll_names <- polls %>%
           remove = F) 
 
 # scores
-scores <- cands %>% 
+scores <- cf_scores %>% 
   filter(seat == "federal:senate" &
            !(lname == "orourke" & cycle == 2020) & 
            !(lname == "campbell" & fname == "ben" &  party == 200) |
@@ -54,7 +54,7 @@ scores <- cands %>%
   rename(cycle = fecyear) %>% 
   mutate(fname = case_when(lname == "giannoulias" & fname == "alexander" ~ "alexi", 
                            lname == "grimes" & fname == "alison" ~ "alison lundergan", 
-                           lname == "d'amato" & fname == "alfonse" ~ "al", 
+                           lname == "damato" & fname == "alfonse" ~ "al", 
                            lname == "sanders" & fname == "alexander" ~ "alex", 
                            lname == "raczkowski" & fname == "andrew" ~ "andrew rocky", 
                            lname == "radnofsky" & fname == "barbara" ~ "barbara ann", 
@@ -225,13 +225,21 @@ scores <- cands %>%
                            lname == "minnick" & fname == "walter" ~ "walt",
                            lname == "allard" & fname == "a wayne" ~ "wayne",
                            lname == "ball" & fname == "gordon" ~ "william gordon",
+                           lname == "lujan" & fname == "ben" ~ "ben ray",
+                           lname == "slattery" & fname == "james" ~ "jim",
+                           lname == "hoeven" & fname == "john & dalrymple" ~ "john",
+                           lname == "hegar" & fname == "mary" ~ "mj",
+                           lname == "mehta" & fname == "rikin" ~ "rik",
+                           lname == "tuberville" & fname == "thomas" ~ "tommy",
                            TRUE ~ fname),
-         lname = case_when(lname == "orourke" & fname == "beto" ~ "o'rourke",
+         lname = case_when(lname == "damato" & fname == "al" ~ "d'amato",
+                           lname == "orourke" & fname == "beto" ~ "o'rourke",
                            lname == "hyde smith" & fname == "cindy" ~ "hyde-smith",
                            lname == "rothman serot" & fname == "geri" ~ "rothman-serot",
                            lname == "lloyd jones" & fname == "jean" ~ "lloyd-jones",
+                           lname == "odonnell" & fname == "christine" ~ "o'donnell",
                            TRUE ~ lname)) 
-  
+
 
 #-------------------------------------------------------------------------------
 
@@ -246,7 +254,7 @@ names_scores <- merge(poll_names,
 # check missing cf scores
 missing_cf_score <- subset(names_scores, is.na(recipient.cfscore) == T)
 
-# no entry for: Mark Clayton, Mike Workman, Jim Rogers
+# no entry for: Mark Clayton, Mike Workman, Jim Rogers, Dan Carter & 2022 candidates not running in previous elections
 
 # merge without cycle
 matching_cf_score <- merge(select(missing_cf_score, -recipient.cfscore), 
@@ -258,7 +266,7 @@ matching_cf_score <- merge(select(missing_cf_score, -recipient.cfscore),
 names_scores <- rbind(names_scores[!is.na(names_scores$recipient.cfscore),],
                       matching_cf_score)
 
-rm(cands, matching_cf_score, missing_cf_score, poll_names, scores)
+rm(cf_scores, matching_cf_score, missing_cf_score, poll_names, scores)
 
 
 # Merge scores with polls -------------------------------------------------
