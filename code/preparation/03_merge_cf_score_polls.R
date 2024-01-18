@@ -264,7 +264,8 @@ matching_cf_score <- merge(select(missing_cf_score, -recipient.cfscore),
 
 # rbind 
 names_scores <- rbind(names_scores[!is.na(names_scores$recipient.cfscore),],
-                      matching_cf_score)
+                      matching_cf_score) %>% 
+  unique()
 
 rm(cf_scores, matching_cf_score, missing_cf_score, poll_names, scores)
 
