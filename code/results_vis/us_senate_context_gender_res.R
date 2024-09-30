@@ -42,7 +42,7 @@ logit.rv <- function(x) rvmapply(FUN = logit, x) # taken from Bon et al. (2019)
 
 # compute election groups
 polls <- polls %>%
-  filter(dte < 1460) %>% # exclude polls conducted more than 4 years (max time to previous election)
+  filter(dte < 101) %>% 
   group_by(state, cycle) %>% 
   mutate(n_poll = n()) %>% 
   ungroup() %>% 
@@ -54,7 +54,7 @@ polls <- polls %>%
          gender_dem = if_else(gender4 %in% c("Dem. female", "Both female"), 1, 0),
          gender_rep = if_else(gender4 %in% c("Rep. female", "Both female"), 1, 0))
 
-# Election-level data 
+# election-level data 
 election_data <- polls %>%
   group_by(state_year, state_year_int, cycle,  state, vote2_rep, 
            gender_dem, gender_rep, gender, gender4) %>%
@@ -66,7 +66,6 @@ postrv <- as.rv(resStan)
 
 
 #### Election level election day bias ####
-
 
 # election day mean estimates
 p0_r <- ilogit.rv(logit.rv(election_data$vote2_rep) +

@@ -41,7 +41,7 @@ logit.rv <- function(x) rvmapply(FUN = logit, x) # taken from Bon et al. (2019)
 
 # compute election groups
 polls <- polls %>%
-  filter(dte < 1460) %>% # exclude polls conducted more than 4 years (max time to previous election)
+  filter(dte < 101) %>% # exclude polls conducted more than 4 years (max time to previous election)
   group_by(state, cycle) %>% 
   mutate(n_poll = n()) %>% 
   ungroup() %>% 
@@ -53,7 +53,7 @@ polls <- polls %>%
          control_dem = if_else(state_control == "dem", 1, 0),
          control_rep = if_else(state_control == "rep", 1, 0))
 
-# Election-level data 
+# election-level data 
 election_data <- polls %>%
   group_by(state_year, state_year_int, cycle,  state, vote2_rep, 
            control_dem, control_rep) %>%

@@ -23,8 +23,8 @@
 
 # Data --------------------------------------------------------------------
 
-b0_race <- readRDS("~/results_vis/us_senate_predictable/us_senate_b0_race.RDS")
-avg_b0_race <- readRDS("~/results_vis/us_senate_predictable/us_senate_avg_b0_race.RDS")
+b0_race <- readRDS("~/results_vis/us_senate_predictable/us_senate_b0_minority.RDS")
+avg_b0_race <- readRDS("~/results_vis/us_senate_predictable/us_senate_avg_b0_minority.RDS")
 b0_gender <- readRDS("~/results_vis/us_senate_predictable/us_senate_b0_gender.RDS")
 avg_b0_gender <- readRDS("~/results_vis/us_senate_predictable/us_senate_avg_b0_gender.RDS")
 # b0_minority_population <- readRDS("~/results_vis/us_senate_predictable/us_senate_b0_minority_population.RDS")
@@ -125,7 +125,7 @@ minority_avg_bias_plot <- ggplot(avg_b0_race) +
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         axis.title.y = element_text(angle = 90, vjust = 2))  +
   geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-  labs(x = "Election-day bias (%)", y = "")  +
+  labs(x = "Election-day bias (p.p.)", y = "")  +
   xlim(-20, 14)
 
 
@@ -171,7 +171,7 @@ avg_b0_gender_plot <- ggplot(avg_b0_gender) +
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         axis.title.y = element_text(angle = 90, vjust = 2))  +
   geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-  labs(x = "Election-day bias (%)", y = "")  +
+  labs(x = "Election-day bias (p.p.)", y = "")  +
   xlim(-20, 14)
 
 gender_plot <- plot_grid(gender_edb_plot, NULL, avg_b0_gender_plot, 
@@ -203,7 +203,7 @@ minority_edb_label_plot <- ggplot(b0_race) +
                    position = pos, max.overlaps = 15,
                    min.segment.length = 0) +
   theme_bw() +
-  labs(x = "Election day bias (%)", y = "Cycle")  +
+  labs(x = "Election day bias (p.p.)", y = "Cycle")  +
   theme(text = element_text(size = 16),
         legend.position = "NULL",
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
@@ -215,12 +215,12 @@ minority_edb_label_plot <- ggplot(b0_race) +
   scale_y_discrete(expand = c(0.05, 0.05), limits = rev)  + 
   scale_alpha_discrete(range = c(0, 1)) 
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/minority_edb_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_minority_label_plot.png', 
        plot = minority_edb_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
 
-# labeld edb by gender
+# labeled edb by gender
 gender_edb_label_plot <- ggplot(b0_gender) +
   geom_segment(aes(y = as.factor(cycle), yend = as.factor(cycle), x = `2.5%`, xend = `97.5%`,
                    color = gender4),
@@ -234,7 +234,7 @@ gender_edb_label_plot <- ggplot(b0_gender) +
                    position = pos, max.overlaps = 155,
                    min.segment.length = 0) +
   theme_bw() +
-  labs(x = "Election day bias", y = "Cycle")  +
+  labs(x = "Election day bias (p.p.)", y = "Cycle")  +
   theme(text = element_text(size = 16),
         legend.position = "NULL",
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
@@ -246,7 +246,7 @@ gender_edb_label_plot <- ggplot(b0_gender) +
   scale_y_discrete(expand = c(0.05, 0.05), limits = rev)  + 
   scale_alpha_discrete(range = c(0, 1)) 
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/gender_edb_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_gender_label_plot.png', 
        plot = gender_edb_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 

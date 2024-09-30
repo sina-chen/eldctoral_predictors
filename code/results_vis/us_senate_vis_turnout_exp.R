@@ -74,7 +74,7 @@ turnout_edb_plot <- ggplot() +
   geom_segment(data = ex_sd_turnout, aes(x = turnout_vep*100, xend = turnout_vep*100, 
                    y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "Turnout (%)", y = "")  +
+  labs(x = "Turnout (p.p.)", y = "")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm"))
 
@@ -98,15 +98,15 @@ exp_edb_plot <- ggplot() +
 turnout_exp_plot <- plot_grid(turnout_edb_plot, exp_edb_plot, ncol = 2,
                               rel_widths = c(1.05, 1), 
                               labels = "AUTO", label_x = 0.96) +
-  draw_label("Excess SD (%)", x=  0, y=0.55, vjust= 1.5, angle=90)
+  draw_label("Excess SD (p.p.)", x=  0, y=0.55, vjust= 1.5, angle=90)
 
 # save
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_turnout_exp.png', 
        plot = turnout_exp_plot, 
-       width = 14, height = 4, bg='#ffffff') 
+       width = 14, height = 5, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_turnout_exp.eps', 
        plot = turnout_exp_plot, 
-       width = 14, height = 4, bg='#ffffff', device=cairo_ps) 
+       width = 14, height = 5, bg='#ffffff', device=cairo_ps) 
 
 rm(turnout_edb_plot, exp_edb_plot, turnout_exp_plot)
 
@@ -117,7 +117,7 @@ turnout_cycle_edb_plot <- ggplot() +
                aes(x = turnout_vep*100, xend = turnout_vep*100, 
                    y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "Turnout (%)", y = "Excess SD (%)")  +
+  labs(x = "Turnout (p.p.)", y = "Excess SD (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm")) +
   facet_wrap(~cycle, ncol = 4)
@@ -125,10 +125,10 @@ turnout_cycle_edb_plot <- ggplot() +
 # save
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_turnout_cycle.png', 
        plot = turnout_cycle_edb_plot, 
-       width = 14, height = 8, bg='#ffffff') 
+       width = 14, height = 10, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_turnout_cycle.eps', 
        plot = turnout_cycle_edb_plot, 
-       width = 14, height = 8, bg='#ffffff') 
+       width = 14, height = 10, bg='#ffffff') 
 
 # excess SD exp plot by cycle
 exp_cycle_edb_plot <- ggplot() +
@@ -136,7 +136,7 @@ exp_cycle_edb_plot <- ggplot() +
   geom_segment(data = ex_sd_exp, aes(x = log_total, xend = log_total, 
                                      y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "log(PC Expenditures)", y = "Excess SD (%)")  +
+  labs(x = "log(PC Expenditures)", y = "Excess SD (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm")) +
   facet_wrap(~cycle, ncol = 4)
@@ -144,10 +144,10 @@ exp_cycle_edb_plot <- ggplot() +
 # save
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_exp_cycle.png', 
        plot = exp_cycle_edb_plot, 
-       width = 14, height = 8, bg='#ffffff') 
+       width = 14, height = 10, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_exp_cycle.eps', 
        plot = exp_cycle_edb_plot, 
-       width = 14, height = 8, bg='#ffffff') 
+       width = 14, height = 10, bg='#ffffff') 
 
 
 # excess SD labeld turnout plot
@@ -190,11 +190,11 @@ turnout_ex_sd_label_plot <- ggplot() +
                    nudge_y = 0.0, color = "grey",
                    nudge_x = -8) +
   theme_bw() +
-  labs(x = "Turnout (%)", y = "Excess SD (%)")  +
+  labs(x = "Turnout (p.p.)", y = "Excess SD (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm"))
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/turnout_ex_sd_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_turnout_label_plot.png', 
        plot = turnout_ex_sd_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
@@ -238,11 +238,11 @@ exp_ex_sd_label_plot <- ggplot() +
                    nudge_y = -0.3, color = "grey",
                    nudge_x = -0.4) +
   theme_bw() +
-  labs(x = "log(PC Expenditures)", y = "Excess SD (%)")  +
+  labs(x = "log(PC Expenditures)", y = "Excess SD (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm"))
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/exp_ex_sd_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_exp_label_plot.png', 
        plot = exp_ex_sd_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 

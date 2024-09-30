@@ -153,7 +153,7 @@ minority_name_avg_bias_plot <- ggplot(avg_b0_name) +
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         axis.title.y = element_text(angle = 90, vjust = 2))  +
   geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-  labs(x = "Election-day bias", y = "")  +
+  labs(x = "Election-day bias (p.p.)", y = "")  +
   xlim(-0.20, 0.14)
 
 # combine plots
@@ -215,19 +215,19 @@ name_prob_rep_edb_plot <- ggplot() +
 name_plot <- plot_grid(minority_name_plot, 
                        name_prob_dem_edb_plot, 
                        name_prob_rep_edb_plot, ncol = 1,
-                       rel_heights = c(1, 0.5, 0.5), labels = "AUTO",
+                       rel_heights = c(1, 0.6, 0.6), labels = "AUTO",
                        label_x = 0.98) +
-    draw_label("Election-day bias", x =  0.02, y = 0.25, vjust = 1.5, angle = 90)
+    draw_label("Election-day bias (p.p.)", x =  0.02, y = 0.3, vjust = 1.5, angle = 90)
 rm(minority_name_plot, name_prob_dem_edb_plot, name_prob_rep_edb_plot, 
    avg_b0_name_dem, avg_b0_name_rep, b0_name_dem, b0_name_rep)
 
 # save plot
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/b0_minority_name.png', 
        plot = name_plot, 
-       width = 14, height = 8, bg='#ffffff') 
+       width = 14, height = 11, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/b0_minority_name.eps', 
        plot = name_plot, 
-       width = 14, height = 8, bg='#ffffff', device=cairo_ps) 
+       width = 14, height = 11, bg='#ffffff', device=cairo_ps) 
 
 
 #### Face ####
@@ -269,7 +269,7 @@ minority_face_avg_bias_plot <- ggplot(avg_b0_face) +
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         axis.title.y = element_text(angle = 90, vjust = 2))  +
   geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-  labs(x = "Election-day bias", y = "")  +
+  labs(x = "Election-day bias (p.p.)", y = "")  +
   xlim(-0.20, 0.14)
 
 # combine plots
@@ -321,9 +321,9 @@ face_prob_rep_edb_plot <- ggplot() +
 face_plot <- plot_grid(minority_face_plot, 
                        face_prob_dem_edb_plot, 
                        face_prob_rep_edb_plot, ncol = 1,
-                       rel_heights = c(1, 0.5, 0.5),
+                       rel_heights = c(1, 0.6, 0.6),
                        labels = "AUTO", label_x = 0.98) +
-  draw_label("Election-day bias", x =  0.02, y = 0.25, vjust = 1.5, angle = 90)
+  draw_label("Election-day bias (p.p.)", x =  0.02, y = 0.3, vjust = 1.5, angle = 90)
 rm(avg_b0_face_dem, avg_b0_face_rep, b0_face_dem, b0_face_rep, 
    minority_face_plot, face_prob_dem_edb_plot, face_prob_rep_edb_plot)
 

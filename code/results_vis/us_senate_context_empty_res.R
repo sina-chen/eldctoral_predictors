@@ -42,7 +42,7 @@ logit.rv <- function(x) rvmapply(FUN = logit, x)
 
 # compute election groups and ids for election year and state
 polls <- polls %>%
-  filter(dte <= 1460) %>% 
+  filter(dte <= 100) %>% 
   mutate(state_year = paste0(state, cycle),
          cycle = as.integer(cycle)) %>%
   group_by(state_year) %>%
@@ -143,7 +143,7 @@ for(i in 1:length(unique(polls$state_year))){
 
 v0_r_summary <- summary(v0_r)
 v0_r_summary$state_year_int <- seq(1:length(unique(polls$state_year)))
-v0_r_summary <- merge(ex_sd_summary, v0_r_summary, by = "state_year_int")
+v0_r_summary <- merge(v0_r_summary, election_data, by = "state_year_int")
 rm(v0_i, v0_r, p0_r, polls)
 
-saveRDS(v0_r_summary, "~/results_vis/us_senate_predictable/v0_senate1990_2022_empty_year.RDS")
+saveRDS(v0_r_summary, "~/results_vis/us_senate_predictable/v0_senate1990_2022_empty.RDS")

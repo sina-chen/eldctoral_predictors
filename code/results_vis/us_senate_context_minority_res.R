@@ -41,7 +41,7 @@ logit.rv <- function(x) rvmapply(FUN = logit, x) # taken from Bon et al. (2019)
 
 # compute election groups
 polls <- polls %>%
-  filter(dte < 1460) %>% # exclude polls conducted more than 4 years (max time to previous election)
+  filter(dte < 101) %>% 
   group_by(state, cycle) %>% 
   mutate(n_poll = n()) %>% 
   ungroup() %>% 
@@ -137,7 +137,6 @@ rm(avg_b0_dem_summary, avg_b0_rep_summary, avg_b0_both_summary,
    avg_b0_neither_summary)
 
 # save
-# saveRDS(bias_race, "~/results_vis/us_senate_predictable/us_senate_bias_race.RDS")
-saveRDS(b0_summary, "~/results_vis/us_senate_predictable/us_senate_b0_race.RDS")
-saveRDS(avg_b0_summary, "~/results_vis/us_senate_predictable/us_senate_avg_b0_race.RDS")
+saveRDS(b0_summary, "~/results_vis/us_senate_predictable/us_senate_b0_minority.RDS")
+saveRDS(avg_b0_summary, "~/results_vis/us_senate_predictable/us_senate_avg_b0_minority.RDS")
 

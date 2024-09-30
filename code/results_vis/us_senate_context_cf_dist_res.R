@@ -39,7 +39,7 @@ resStan <- readRDS('~/fit_stan/us_senate_predictable/resStan_us_senate_context19
 
 # compute election groups
 polls <- polls %>%
-  filter(dte < 1460 & !is.na(cf_score_dem) & !is.na(cf_score_rep)) %>% # exclude polls conducted more than 4 years (max time to previous election)
+  filter(dte < 101 & !is.na(cf_score_dem) & !is.na(cf_score_rep)) %>% # exclude polls conducted more than 4 years (max time to previous election)
   group_by(state, cycle) %>% 
   mutate(n_poll = n()) %>% 
   ungroup() %>% 

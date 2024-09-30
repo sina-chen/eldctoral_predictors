@@ -41,7 +41,7 @@ logit.rv <- function(x) rvmapply(FUN = logit, x) # taken from Bon et al. (2019)
 
 # compute election groups
 polls <- polls %>%
-  filter(dte < 1460) %>% # exclude polls conducted more than 4 years (max time to previous election)
+  filter(dte < 101) %>% # exclude polls conducted more than 4 years (max time to previous election)
   group_by(state, cycle) %>% 
   mutate(n_poll = n()) %>% 
   ungroup() %>% 
@@ -105,6 +105,6 @@ avg_b0_summary$state_year_int <- 1:nrow(election_data)
 avg_b0_summary <- merge(avg_b0_summary, election_data, by = "state_year_int")
 
 # save
-saveRDS(avg_b0_summary, "~/results_vis/us_senate_predictable/us_senate_avg_exp_b0_name_prob_white_dem.RDS")
+saveRDS(avg_b0_summary, "/Users/sinachen/Documents/Uni/PollingError/us/senate/code/covariates/res_vis_context/res_vis100/us_senate_avg_exp_b0_name_prob_white_dem.RDS")
 
 

@@ -30,7 +30,6 @@ avg_bias_front <- readRDS("~/results_vis/us_senate_predictable/us_senate_avg_b0_
 b0_inc <- readRDS("~/results_vis/us_senate_predictable/us_senate_b0_inc.RDS")
 avg_bias_inc <- readRDS("~/results_vis/us_senate_predictable/us_senate_avg_b0_inc.RDS")
 b0_last <- readRDS("~/results_vis/us_senate_predictable/us_senate_b0_last.RDS")
-exp_b0_last <- readRDS("~/results_vis/us_senate_predictable/us_senate_exp_b0_last.RDS")
 avg_exp_b0_last <- readRDS("~/results_vis/us_senate_predictable/us_senate_avg_exp_b0_last.RDS")
 
 # specify jitter position
@@ -133,7 +132,7 @@ front_avg_bias_plot <- ggplot(avg_bias_front) +
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         axis.title.y = element_text(angle = 90, vjust = 2))  +
   geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-  labs(x = "Election-day bias (%)", y = "")  +
+  labs(x = "", y = "")  +
   xlim(-20, 14)
 
 
@@ -178,11 +177,11 @@ inc_avg_bias_plot <- ggplot(avg_bias_inc) +
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         axis.title.y = element_text(angle = 90, vjust = 2))  +
   geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-  labs(x = "Election-day bias (%)", y ="")  +
+  labs(x = "Election-day bias (p.p.)", y ="")  +
   xlim(-20, 14)
 
 inc_plot <- plot_grid(inc_edb_plot, NULL, inc_avg_bias_plot, 
-                      ncol = 1, align = "v",  rel_heights = c(4, -0.25, 1))
+                      ncol = 1, align = "v",  rel_heights = c(4, -0.25, 1.05))
 
 
 # margin last poll plot
@@ -200,13 +199,13 @@ last_plot <- ggplot() +
                aes(x = last_poll_margin*100, xend = last_poll_margin*100,
                    y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "Margin last poll, Rep.-Dem. (%)", y = "Election-day bias (%)") +
+  labs(x = "Margin last poll, Rep.-Dem. (p.p.)", y = "Election-day bias (p.p.)") +
   scale_x_continuous(breaks = c(seq(-60,60,20))) +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,12), "mm"))
 
 front_inc_last_plot <- plot_grid(front_plot, inc_plot, last_plot, ncol = 1, 
-                            rel_heights = c(1,1,0.7), labels = "AUTO",
+                            rel_heights = c(1,1.02,0.8), labels = "AUTO",
                             label_x = 0.97,  axis = "tblr")
 
 # save
@@ -226,7 +225,7 @@ last_cycle_edb_plot <- ggplot() +
                                    xend = last_poll_margin*100, 
                                    y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "Margin last poll, Rep.-Dem. (%)", y = "Election day bias (%)")  +
+  labs(x = "Margin last poll, Rep.-Dem. (p.p.)", y = "Election day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm")) +
   facet_wrap(~cycle, ncol = 4)
@@ -260,7 +259,7 @@ front_edb_label_plot <- ggplot(b0_front) +
                        label = state_year_short), color = "grey",
                    position = pos, min.segment.length = 0) +
   theme_bw() +
-  labs(x = "Election day bias (%)", y = "Cycle")  +
+  labs(x = "Election day bias (p.p.)", y = "Cycle")  +
   theme(text = element_text(size = 16), 
         legend.position = "NULL",
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
@@ -271,7 +270,7 @@ front_edb_label_plot <- ggplot(b0_front) +
   xlim(-20, 14) +
   scale_y_discrete(expand = c(0.08, 0.08), limits = rev)  
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/front_edb_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_front_label_plot.png', 
        plot = front_edb_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
@@ -296,7 +295,7 @@ inc_edb_label_plot <- ggplot(b0_inc) +
                    position = pos, max.overlaps = 18,
                   min.segment.length = 0) +
   theme_bw() +
-  labs(x = "Election day bias (%)", y = "Cycle")  +
+  labs(x = "Election day bias (p.p.)", y = "Cycle")  +
   theme(text = element_text(size = 16), 
         legend.position = "NULL",
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
@@ -307,7 +306,7 @@ inc_edb_label_plot <- ggplot(b0_inc) +
   xlim(-20, 14) +
   scale_y_discrete(expand = c(0.08, 0.08), limits = rev) 
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/inc_edb_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_inc_label_plot.png', 
        plot = inc_edb_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
@@ -353,11 +352,11 @@ last_b0_label_plot <- ggplot() +
                    nudge_y = 0.0, color = "grey",
                    nudge_x = -15) +
   theme_bw() +
-  labs(x = "Margin last poll, Rep.-Dem. (%)", y = "Election day bias (%)")  +
+  labs(x = "Margin last poll, Rep.-Dem. (p.p.)", y = "Election day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm"))
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/last_b0_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_last_label_plot.png', 
        plot = last_b0_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 

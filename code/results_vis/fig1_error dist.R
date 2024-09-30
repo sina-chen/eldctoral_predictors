@@ -215,7 +215,7 @@ plot_v_cycle_tse <- function(year, margin = unit(c(0, 0, 0, 0), "cm"),
 # compute election groups and ids for election year and state
 polls <- polls %>%
   mutate(state_year = paste0(state, cycle)) %>% 
-  filter(dte < 1460) %>%
+  filter(dte < 101) %>%
   group_by(state_year) %>%
   mutate(n_poll = n()) %>%
   ungroup() %>%
@@ -260,7 +260,7 @@ plots <- append(plots, list(plot2022), after = 16)
 # plot
 density_estimates_senate <- ggarrange(plotlist = plots, ncol = 1,
                                       heights = c(1.5,rep(1,15),1.2)) %>% 
-  annotate_figure(bottom = text_grob("Estimated election-day bias (%) and SD (%)", 
+  annotate_figure(bottom = text_grob("Estimated election-day bias (p.p.) and SD (p.p.)", 
                                      size = 18))
 
 #### TSE ####
@@ -277,7 +277,7 @@ plots_tse <- append(plots_tse, list(plot_tse2022), after = 16)
 # plot
 tse_estimates_senate <- ggarrange(plotlist = plots_tse, ncol = 1,
                                   heights = c(1.5,rep(1,15),1.2)) %>% 
-  annotate_figure(bottom = text_grob("Rep. 2 party poll support (%) - Rep. 2 party vote share (%)", 
+  annotate_figure(bottom = text_grob("Rep. 2 party poll support (p.p.) - Rep. 2 party vote share (p.p.)", 
                                      size = 18))
 
 #### Combine plots ####
@@ -286,7 +286,7 @@ tse_density <- plot_grid(tse_estimates_senate,density_estimates_senate,
                          ncol = 2, labels = "AUTO", label_x = 0.97, 
                          rel_widths = c(1.08,1), label_size = 18)
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/us_senate_tse_est_density.png',
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/us_senate_tse_est_density100.png',
        plot = tse_density,
        width = 20, height = 18, bg='#ffffff')
 

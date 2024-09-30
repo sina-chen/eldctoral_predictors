@@ -92,7 +92,7 @@ democracy_edb_plot <- ggplot() +
                aes(x = democracy_mcmc, xend = democracy_mcmc, 
                    y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "State Democracy Index", y = "Election-day bias (%)")  +
+  labs(x = "State Democracy Index", y = "Election-day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,8), "mm"))
 
@@ -133,7 +133,7 @@ control_avg_bias_plot <- ggplot(avg_b0_control) +
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         axis.title.y = element_text(angle = 360, vjust = 0.5))  +
   geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-  labs(y = "", x = "Election-day bias (%)")  +
+  labs(y = "", x = "Election-day bias (p.p.)")  +
   xlim(-20, 14)
 
 
@@ -142,16 +142,16 @@ control_plot <- plot_grid(control_edb_plot, NULL, control_avg_bias_plot,
 
 # combine plots
 democracy_control_plot <- plot_grid(democracy_edb_plot, control_plot, ncol = 1, 
-                                  rel_heights = c(0.6,1), labels = "AUTO",
+                                  rel_heights = c(0.8,1), labels = "AUTO",
                                   label_x = 0.98)
 
 # save plots
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/b0_democarcy_control.png', 
        plot = democracy_control_plot, 
-       width = 14, height = 8, bg='#ffffff') 
+       width = 14, height = 9, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/b0_democarcy_control.eps', 
        plot = democracy_control_plot, 
-       width = 14, height = 8, bg='#ffffff', device=cairo_ps) 
+       width = 14, height = 9, bg='#ffffff', device=cairo_ps) 
 
 # edb vs. democracy index plot by cycle
 democracy_cycle_edb_plot <- ggplot() +
@@ -161,7 +161,7 @@ democracy_cycle_edb_plot <- ggplot() +
                aes(x = democracy_mcmc, xend = democracy_mcmc, 
                    y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "State Democracy Index", y = "Election day bias (%)")  +
+  labs(x = "State Democracy Index", y = "Election day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,6,0,2), "mm")) +
   facet_wrap(~cycle, ncol = 4)
@@ -169,10 +169,10 @@ democracy_cycle_edb_plot <- ggplot() +
 # save
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_democracy_cycle.png', 
        plot = democracy_cycle_edb_plot, 
-       width = 14, height = 5, bg='#ffffff') 
+       width = 14, height = 7, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_democracy_cycle.eps', 
        plot = democracy_cycle_edb_plot, 
-       width = 14, height = 5, bg='#ffffff') 
+       width = 14, height = 7, bg='#ffffff') 
 
 # edb democracy index labeld plot
 democracy_edb_labeled_plot <- ggplot() +
@@ -215,41 +215,41 @@ democracy_edb_labeled_plot <- ggplot() +
                    nudge_y = 0.0, color = "grey",
                    nudge_x = -0.4) +  
   theme_bw() +
-  labs(x = "State Democracy Index", y = "Election-day bias (%)")  +
+  labs(x = "State Democracy Index", y = "Election-day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         legend.position = c(0.95, 0.2),
         legend.background=element_blank()) 
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/democracy_edb_labeled_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_democracy_labeled_plot.png', 
        plot = democracy_edb_labeled_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
-# edb by preclearnce & state control
-
-control_preclearance_plot <- ggplot(b0_control) +
-  geom_pointrange(aes(x = cycle, y = mean*100, 
-                      ymin = `2.5%`*100, ymax = `97.5%`*100,
-                      color = as.factor(control_rep)),
-                  size = 0.3,
-                  position = position_jitter(width = 0.7, height = 0)) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
-  geom_vline(xintercept = 2013, linetype = "dashed") +
-  scale_x_continuous(breaks = seq(1990, 2022, by = 2)) +
-  scale_color_manual(labels = c("Non-Republican", "Republican"),
-                     values=c('darkgrey', 'black'),
-                     name = "State Control") +
-  facet_wrap(~preclearance) +
-  labs(x = "",
-       y = "Election-day bias (%)") +
-  theme_bw() +
-  theme(legend.position="bottom",
-        text = element_text(size = 16),
-        axis.text.x = element_text(angle = 45, vjust = 0.5))
-
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/control_preclearance_plot.png', 
-       plot = control_preclearance_plot, 
-       width = 12, height = 6, bg='#ffffff') 
+# # edb by preclearnce & state control
+# 
+# control_preclearance_plot <- ggplot(b0_control) +
+#   geom_pointrange(aes(x = cycle, y = mean*100, 
+#                       ymin = `2.5%`*100, ymax = `97.5%`*100,
+#                       color = as.factor(control_rep)),
+#                   size = 0.3,
+#                   position = position_jitter(width = 0.7, height = 0)) +
+#   geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
+#   geom_vline(xintercept = 2013, linetype = "dashed") +
+#   scale_x_continuous(breaks = seq(1990, 2022, by = 2)) +
+#   scale_color_manual(labels = c("Non-Republican", "Republican"),
+#                      values=c('darkgrey', 'black'),
+#                      name = "State Control") +
+#   facet_wrap(~preclearance) +
+#   labs(x = "",
+#        y = "Election-day bias (%)") +
+#   theme_bw() +
+#   theme(legend.position="bottom",
+#         text = element_text(size = 16),
+#         axis.text.x = element_text(angle = 45, vjust = 0.5))
+# 
+# ggsave(filename = '~/results_vis/us_senate_predictable/plots/control_preclearance_plot.png', 
+#        plot = control_preclearance_plot, 
+#        width = 12, height = 6, bg='#ffffff') 
 
 # labeld edb by state control
 b0_control <- b0_control %>% 
@@ -271,7 +271,7 @@ control_edb_label_plot <- ggplot(b0_control) +
                    position = pos,
                    min.segment.length = 0) +
   theme_bw() +
-  labs(x = "Election day bias (%)", y = "Cycle")  +
+  labs(x = "Election day bias (p.p.)", y = "Cycle")  +
   theme(text = element_text(size = 16),
         legend.position = "NULL",
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
@@ -282,7 +282,7 @@ control_edb_label_plot <- ggplot(b0_control) +
   xlim(-20, 14) +
   scale_y_discrete(expand = c(0.08, 0.08), limits = rev)  
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/control_edb_label_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_control_label_plot.png', 
        plot = control_edb_label_plot, 
        width = 14, height = 8, bg='#ffffff') 
 

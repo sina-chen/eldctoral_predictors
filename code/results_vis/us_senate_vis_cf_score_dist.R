@@ -104,7 +104,7 @@ cf_edb_plot <- ggplot() +
                                      y = `2.5%`*100, yend = `97.5%`*100, 
                                      color = "Rep.")) +  
   theme_bw() +
-  labs(x = "CFscore", y = "Election-day bias (%)")  +
+  labs(x = "CFscore", y = "Election-day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         legend.position = c(0.95, 0.2),
@@ -123,7 +123,7 @@ cf_dist_ex_sd_plot <- ggplot() +
   geom_segment(data = ex_sd_dist, aes(x = cf_dist, xend = cf_dist, 
                                      y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "CFscore distance (Rep.-Dem.)", y = "Excess SD (%)")  +
+  labs(x = "CFscore distance (Rep.-Dem.)", y = "Excess SD (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm"))
 
@@ -135,10 +135,10 @@ cf_dist_plot <- plot_grid(cf_edb_plot, cf_dist_ex_sd_plot, ncol = 1,
 # save plots
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/b0_cf_ex_sd_cf_dist.png', 
        plot = cf_dist_plot, 
-       width = 14, height = 6, bg='#ffffff') 
+       width = 14, height = 8, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/b0_cf_ex_sd_cf_dist.eps', 
        plot = cf_dist_plot, 
-       width = 14, height = 6, bg='#ffffff', device=cairo_ps) 
+       width = 14, height = 8, bg='#ffffff', device=cairo_ps) 
 
 
 # edb cf score cycle plot
@@ -155,7 +155,7 @@ cf_edb_cycle_plot <- ggplot() +
                                      y = `2.5%`*100, yend = `97.5%`*100, 
                                      color = "Rep.")) +  
   theme_bw() +
-  labs(x = "CFscore", y = "Election-day bias (%)")  +
+  labs(x = "CFscore", y = "Election-day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         legend.position = "bottom",
@@ -167,10 +167,10 @@ cf_edb_cycle_plot <- ggplot() +
 # save
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_cf_score_cycle.png', 
        plot = cf_edb_cycle_plot, 
-       width = 14, height = 8, bg='#ffffff') 
+       width = 14, height = 10, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_cf_score_cycle.eps', 
        plot = cf_edb_cycle_plot, 
-       width = 14, height = 8, bg='#ffffff', dpi = 320) 
+       width = 14, height = 10, bg='#ffffff', dpi = 320) 
 
 # excess SD cf score distance cycle plot
 cf_dist_ex_sd_cycle_plot <- ggplot() +
@@ -178,7 +178,7 @@ cf_dist_ex_sd_cycle_plot <- ggplot() +
   geom_segment(data = ex_sd_dist, aes(x = cf_dist, xend = cf_dist, 
                                       y = `2.5%`*100, yend = `97.5%`*100)) +
   theme_bw() +
-  labs(x = "CFscore distance (Rep.-Dem.)", y = "Excess SD (%)")  +
+  labs(x = "CFscore distance (Rep.-Dem.)", y = "Excess SD (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm"))  +
   facet_wrap(~cycle, ncol = 4)
@@ -186,11 +186,27 @@ cf_dist_ex_sd_cycle_plot <- ggplot() +
 # save
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_cf_dist_cycle.png', 
        plot = cf_dist_ex_sd_cycle_plot, 
-       width = 14, height = 6, bg='#ffffff') 
+       width = 14, height = 10, bg='#ffffff') 
 ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_cf_dist_cycle.eps', 
        plot = cf_dist_ex_sd_cycle_plot, 
-       width = 14, height = 6, bg='#ffffff') 
+       width = 14, height = 10, bg='#ffffff') 
 
+# excess SD cf score distance cycle plot + smooth
+cf_dist_ex_sd_cycle_smooth_plot <- ggplot() +
+  geom_point(data = ex_sd_dist, aes(x = cf_dist, y = mean*100)) +
+  geom_segment(data = ex_sd_dist, aes(x = cf_dist, xend = cf_dist, 
+                                      y = `2.5%`*100, yend = `97.5%`*100)) +
+  theme_bw() +
+  labs(x = "CFscore distance (Rep.-Dem.)", y = "Excess SD (p.p.)")  +
+  theme(text = element_text(size = 16),
+        plot.margin=grid::unit(c(2,10,0,2), "mm"))  +
+  facet_wrap(~cycle, ncol = 4) +
+  geom_smooth(data = ex_sd_dist, aes(x = cf_dist, y = mean*100), 
+              method = "lm", se = F, color = "darkgrey")
+
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_cf_dist_cycle_smooth.png', 
+       plot = cf_dist_ex_sd_cycle_smooth_plot, 
+       width = 14, height = 10, bg='#ffffff') 
 
 # edb cf score dem labeld plot
 cf_dem_edb_labeled_plot <- ggplot() +
@@ -232,13 +248,13 @@ cf_dem_edb_labeled_plot <- ggplot() +
                    nudge_y = 0.0, color = "grey",
                    nudge_x = -0.10) +  
   theme_bw() +
-  labs(x = "CFscore Dem.", y = "Election-day bias (%)")  +
+  labs(x = "CFscore Dem.", y = "Election-day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         legend.position = c(0.95, 0.2),
         legend.background=element_blank()) 
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/cf_dem_edb_labeled_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_cf_dem_labeled_plot.png', 
        plot = cf_dem_edb_labeled_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
@@ -283,13 +299,13 @@ cf_rep_edb_labeled_plot <- ggplot() +
                    nudge_y = 0.0, color = "grey",
                    nudge_x = -0.2) +  
   theme_bw() +
-  labs(x = "CFscore Rep.", y = "Election-day bias (%)")  +
+  labs(x = "CFscore Rep.", y = "Election-day bias (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm"),
         legend.position = c(0.95, 0.2),
         legend.background=element_blank()) 
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/cf_rep_edb_labeled_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/edb_cf_rep_labeled_plot.png', 
        plot = cf_rep_edb_labeled_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
@@ -333,11 +349,11 @@ cf_dist_ex_sd_labeled_plot <- ggplot() +
                    nudge_y = -0.5, color = "grey",
                    nudge_x = -0.2) +  
   theme_bw() +
-  labs(x = "CFscore distance (Rep. - Dem.)", y = "Excess SD (%)")  +
+  labs(x = "CFscore distance (Rep. - Dem.)", y = "Excess SD (p.p.)")  +
   theme(text = element_text(size = 16),
         plot.margin=grid::unit(c(2,10,0,2), "mm")) 
 
-ggsave(filename = '~/results_vis/us_senate_predictable/plots/cf_dist_ex_sd_labeled_plot.png', 
+ggsave(filename = '~/results_vis/us_senate_predictable/plots/ex_sd_cf_dist_labeled_plot.png', 
        plot = cf_dist_ex_sd_labeled_plot, 
        width = 14, height = 8, bg='#ffffff') 
 
