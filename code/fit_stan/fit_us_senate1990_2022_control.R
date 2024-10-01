@@ -1,7 +1,8 @@
 #-------------------------------------------------------------------------------
 #
-# Electoral predictors - state control
+# Electoral predictors - fit state control model
 #
+# Author: Sina Chen
 #
 #-------------------------------------------------------------------------------
 
@@ -24,21 +25,20 @@ polls <- readRDS("~/data/us/senate/us_senate_polls1990_2022_context_finance.RDS"
 
 # Preparation -------------------------------------------------------------
 
-# compute election groups
 polls <- polls %>%
-  filter(t < 1460) %>% # exclude polls conducted more than 4 years (max time to previous election)
-  group_by(state, cycle) %>% 
+  filter(t < 101) %>%                             # exclude polls conducted more than 100 days before election day
+  group_by(state, cycle) %>%                      # compute election groups
   mutate(n_poll = n()) %>% 
   ungroup() %>% 
-  filter(n_poll >= 5) %>% 
+  filter(n_poll >= 5) %>%                         # exclude elections with less than 5 polls
   mutate(state_year = paste0(state, cycle),
          cycle = as.integer(cycle),
          state_year_int = as.integer(as.factor(state_year)),
-         t_sc = as.numeric(t)/max(as.numeric(t)),
+         t_sc = as.numeric(t)/max(as.numeric(t)), # scale days to election 0-1
          control_dem = if_else(state_control == "dem", 1, 0),
          control_rep = if_else(state_control == "rep", 1, 0))
 
-# Election-level data 
+# election-level data 
 vote_sy <- polls %>%
   group_by(state_year, cycle,  state, vote2_rep, control_dem, control_rep) %>%
   summarise() %>%
@@ -47,28 +47,28 @@ vote_sy <- polls %>%
 # Stan data 
 stan_dat <- list(
   N = nrow(polls),                             # number of polls
-  SY = length(unique(polls$state_year)),       # number of elections (state x election year)
+  SY = length(unique(polls$state_year)),       # number of elections
 
   poll = polls$pct2_rep,                       # two-party poll share
   vote = vote_sy$vote2_rep,                    # two-party vote share
   
-  feature_dem = vote_sy$control_dem,
-  feature_rep = vote_sy$control_rep,
-  t = polls$t_sc,
+  feature_dem = vote_sy$control_dem,           # election-level feature Dem.
+  feature_rep = vote_sy$control_rep,           # election-level feature Rep.
+  t = polls$t_sc,                              # scaled days to election
   
   sample_size = polls$sample_size * 
-    (polls$vote_rep + polls$vote_dem),        # sample size adjusted for Rep. & Dem. poll share
+    (polls$vote_rep + polls$vote_dem),         # sample size adjusted for Rep. & Dem. poll share
   
-  sy_id = polls$state_year_int                # election id
+  sy_id = polls$state_year_int                 # election id
   
 )
 
-# check stan data
+# check Stan data
 sapply(stan_dat, length)
 sapply(stan_dat, range)
 
 
-# Fit stan model ----------------------------------------------------------
+# Fit Stan model ----------------------------------------------------------
 
 resStan <- stan(file = "~/fit_stan/stan_ml/ml_senate_bias_context_cat.stan", 
                 data = stan_dat,
@@ -76,5 +76,5 @@ resStan <- stan(file = "~/fit_stan/stan_ml/ml_senate_bias_context_cat.stan",
                 control = list(adapt_delta = 0.95, max_treedepth = 12)
 ) 
 
-#launch_shinystan(resStan)
-saveRDS(resStan, '~/fit_stan/us_senate_predictable/resStan_us_senate_context1990_2022_control.RDS') # xx divergencies, alpha 95, tree 12
+# save simulation results
+saveRDS(resStan, '~/fit_stan/us_senate_predictable/resStan_us_senate_context1990_2022_control.RDS') 
